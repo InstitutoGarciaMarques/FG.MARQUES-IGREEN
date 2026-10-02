@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d3d24">
+<title>Ecossistema Conexão iGreen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: hub em três grupos (energia, serviços Conexão, renda) com um seletor "qual é o seu caso" que destaca os cartões certos. Dark-first, verde floresta. */
+:root{
+  --bg:#0d3d24;
+  --bg-2:#0a3220;
+  --surface:#124a2d;
+  --line:#1f6140;
+  --fg:#f1f7f2;
+  --muted:#a8c9b4;
+  --accent:#8ee05a;
+  --accent-ink:#0b2e1b;
+  --sun:#ffd166;
+  --font-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --font-body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f3f8f2;--bg-2:#e6f0e5;--surface:#ffffff;--line:#c6dac8;
+    --fg:#0f2a1c;--muted:#456451;--accent:#1c7a3e;--accent-ink:#ffffff;--sun:#a86b00;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f3f8f2;--bg-2:#e6f0e5;--surface:#ffffff;--line:#c6dac8;
+  --fg:#0f2a1c;--muted:#456451;--accent:#1c7a3e;--accent-ink:#ffffff;--sun:#a86b00;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;padding-inline:16px}
+.wrap{max-width:1040px;margin-inline:auto;padding-block:20px 48px;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--font-display);line-height:1.08;margin:0;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:6px}
+.tag{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:1.15rem}
+.brand i{width:34px;height:34px;border-radius:50%;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-style:normal}
+
+.hero{display:flex;flex-direction:column;gap:16px}
+.hero h1{font-size:clamp(2.1rem,6.5vw,3.6rem);font-weight:800;max-width:18ch}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{max-width:62ch;color:var(--muted);font-size:1.08rem}
+
+.pick{display:flex;flex-direction:column;gap:10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:inherit;cursor:pointer;min-height:44px;padding:8px 18px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--fg)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:transparent;font-weight:700}
+
+.group{display:flex;flex-direction:column;gap:16px}
+.group header{display:flex;flex-direction:column;gap:4px}
+.group h2{font-size:clamp(1.4rem,4vw,1.9rem)}
+.group header p{color:var(--muted);max-width:60ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px}
+
+.card{display:flex;flex-direction:column;gap:10px;padding:22px;border-radius:18px;background:var(--surface);border:1px solid var(--line);min-width:0;transition:opacity .2s}
+.card.dim{opacity:.38}
+.card.lead{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.card .kicker{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.card h3{font-size:1.35rem}
+.card .desc{opacity:.9;font-size:.97rem}
+.card .note{font-size:.85rem;opacity:.8}
+.card .actions{margin-top:auto;padding-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 20px;border-radius:999px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;border:1px solid transparent;background:var(--accent);color:var(--accent-ink)}
+.card.lead .btn{background:var(--accent-ink);color:var(--accent)}
+.btn.ghost{background:transparent;color:inherit;border-color:currentColor;font-weight:500}
+.card.pending{border-style:dashed;background:transparent}
+.badge{align-self:flex-start;font-size:.74rem;padding:3px 10px;border-radius:999px;border:1px solid var(--sun);color:var(--sun)}
+
+.journey{padding:28px;border-radius:22px;background:var(--bg-2);border:1px solid var(--line);display:flex;flex-direction:column;gap:18px}
+.journey h2{font-size:1.5rem}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;list-style:none;margin:0;padding:0}
+.flow li{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-left:3px solid var(--accent)}
+.flow b{font-family:var(--font-display);font-size:1.05rem}
+.flow span{color:var(--muted);font-size:.93rem}
+
+footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direction:column;gap:6px}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+
+<!-- ============ EDITE AQUI: links e textos ============ -->
+<script>
+  var WHATSAPP = "5548991761593"; /* (48) 99176-1593 */
+  function wa(msg){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg); }
+  window.CONFIG = {
+    marca: "Equipe Françueldo Garcia Marques",
+    produtos: [
+      { id:"digital", grupo:"energia", dest:true, quem:["casa"],
+        kicker:"Baixa tensão · público em geral", titulo:"Conexão Green",
+        texto:"Para quem paga conta de luz em casa ou no pequeno comércio. Receba energia limpa com desconto, sem obras e sem placas.",
+        cta:"Quero economizar", url:"https://digital.igreenenergy.com.br/?id=131303" },
+      { id:"livre", grupo:"energia", quem:["empresa"],
+        kicker:"Alta tensão · contas a partir de R$ 10 mil", titulo:"Conexão Livre",
+        texto:"Para empresas com conta de luz a partir de R$ 10 mil por mês. Mercado livre de energia com economia para o seu negócio.",
+        cta:"Analisar minha empresa", url:"https://livre.igreenenergy.com.br/?ref=1e7b0537-597f-46d1-9338-69e0d1b1e9d9" },
+      { id:"solar", grupo:"energia", quem:["casa","empresa"],
+        kicker:"Energia solar", titulo:"Conexão Solar",
+        texto:"Quer energia solar para casa ou empresa? Fale direto com a nossa equipe no WhatsApp.",
+        cta:"Chamar no WhatsApp", url:wa("Olá! Tenho interesse na Conexão Solar da iGreen.") },
+      { id:"placas", grupo:"energia", quem:["casa","empresa"],
+        kicker:"Placas", titulo:"Conexão Placas",
+        texto:"Interesse em placas solares? Fale direto com a nossa equipe no WhatsApp.",
+        cta:"Chamar no WhatsApp", url:wa("Olá! Tenho interesse na Conexão Placas da iGreen.") },
+
+      { id:"telecom", grupo:"servicos", quem:["casa","empresa"],
+        kicker:"Internet e telefonia", titulo:"Conexão Telecom",
+        texto:"Planos de telecom dentro do mesmo ecossistema da sua conta de luz.",
+        cta:"Ver Telecom", url:"https://telecom.igreenenergy.com.br/?id=1e7b0537-597f-46d1-9338-69e0d1b1e9d9" },
+      { id:"seguros", grupo:"servicos", quem:["casa","empresa"],
+        kicker:"Proteção", titulo:"Conexão Seguros",
+        texto:"Cotação de seguros para você, sua família ou sua empresa.",
+        cta:"Cotar seguro", url:"https://seguros.igreenenergy.com.br?t=OwWOef4KW3jlfDPg3Kd_-1QDM5eCVeIPqX1pu-E7i2uoEPzMlKs" },
+      { id:"club", grupo:"servicos", quem:["casa"],
+        kicker:"Clube de benefícios", titulo:"Conexão Club",
+        texto:"Clube de benefícios e descontos para clientes e licenciados iGreen.",
+        cta:"Chamar no WhatsApp", url:wa("Olá! Quero conhecer o Conexão Club da iGreen.") },
+      { id:"clubpj", grupo:"servicos", quem:["empresa"],
+        kicker:"Clube de benefícios para empresas", titulo:"Conexão Club PJ",
+        texto:"Benefícios do Club para a sua empresa. Fale direto com a nossa equipe no WhatsApp.",
+        cta:"Chamar no WhatsApp", url:wa("Olá! Quero conhecer o Conexão Club PJ da iGreen para a minha empresa.") },
+
+      { id:"licenca", grupo:"renda", dest:true, quem:["renda"],
+        kicker:"Para quem quer gerar renda", titulo:"Seja licenciado iGreen",
+        texto:"Torne-se licenciado, indique a economia para outras pessoas e construa sua renda com a Equipe Françueldo Garcia Marques.",
+        cta:"Quero ser licenciado", url:"https://expansao.igreenenergy.com.br/?id=131303" }
+    ]
+  };
+</script>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><i aria-hidden="true">⚡</i><span>iGreen Energy</span></div>
+    <span class="tag" id="marca"></span>
+  </header>
+
+  <main style="display:flex;flex-direction:column;gap:48px">
+    <div class="hero">
+      <span class="tag">Sua jornada green começa aqui</span>
+      <h1>Um só lugar para <em>economizar</em>, proteger e <em>gerar renda</em>.</h1>
+      <p>Energia limpa com desconto na conta de luz, telecom, seguros, clube de benefícios e a licença para você mesmo indicar. Escolha o seu caso e vá direto ao link certo.</p>
+    </div>
+
+    <div class="pick">
+      <span class="tag">Qual é o seu caso?</span>
+      <div class="chips" id="chips" role="group" aria-label="Filtrar por perfil">
+        <button class="chip" type="button" data-q="todos" aria-pressed="true">Ver tudo</button>
+        <button class="chip" type="button" data-q="casa" aria-pressed="false">Minha casa ou pequeno comércio</button>
+        <button class="chip" type="button" data-q="empresa" aria-pressed="false">Minha empresa</button>
+        <button class="chip" type="button" data-q="renda" aria-pressed="false">Quero gerar renda</button>
+      </div>
+    </div>
+
+    <section class="group" id="g-energia">
+      <header><h2>Energia e economia</h2><p>O ponto de partida: reduzir a conta de luz. A baixa tensão é a porta de entrada, a alta tensão atende contas maiores.</p></header>
+      <div class="grid"></div>
+    </section>
+
+    <section class="group" id="g-servicos">
+      <header><h2>Serviços Conexão</h2><p>Depois da energia, o cliente pode contratar outros serviços sem sair do ecossistema.</p></header>
+      <div class="grid"></div>
+    </section>
+
+    <section class="group" id="g-renda">
+      <header><h2>Gere renda</h2><p>Quem já viu a economia acontecer pode indicar para outras pessoas.</p></header>
+      <div class="grid"></div>
+    </section>
+
+    <section class="journey" aria-labelledby="jt">
+      <h2 id="jt">Como o ecossistema se conecta</h2>
+      <ol class="flow">
+        <li><b>1. Energia</b><span>O cliente entra pela conta de luz, em baixa ou alta tensão.</span></li>
+        <li><b>2. Serviços</b><span>Passa a usar Telecom, Seguros e Club com o mesmo cadastro iGreen.</span></li>
+        <li><b>3. Indicação</b><span>Gostou do resultado e indica amigos, família e empresas.</span></li>
+        <li><b>4. Licença</b><span>Quem quer transformar indicação em renda vira licenciado.</span></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <span id="marca2"></span>
+    <span>Licenciado iGreen Energy. Descontos e condições variam conforme a distribuidora, o consumo e o produto.</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var C = window.CONFIG, filtro = "todos";
+  document.getElementById("marca").textContent = C.marca;
+  document.getElementById("marca2").textContent = C.marca;
+
+  C.produtos.forEach(function(p){
+    var card = document.createElement("article");
+    card.className = "card" + (p.dest ? " lead" : "") + (p.url ? "" : " pending");
+    card.dataset.quem = p.quem.join(" ");
+    var k = document.createElement("span"); k.className = "kicker"; k.textContent = p.kicker;
+    var h = document.createElement("h3"); h.textContent = p.titulo;
+    var d = document.createElement("p"); d.className = "desc"; d.textContent = p.texto;
+    card.append(k, h, d);
+    var act = document.createElement("div"); act.className = "actions";
+    if(p.url){
+      var a = document.createElement("a"); a.className = "btn"; a.href = p.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = p.cta;
+      act.append(a);
+    } else {
+      var bd = document.createElement("span"); bd.className = "badge"; bd.textContent = "Link pendente";
+      act.append(bd);
+    }
+    card.append(act);
+    document.querySelector("#g-" + p.grupo + " .grid").append(card);
+  });
+
+  function aplicar(){
+    document.querySelectorAll(".card").forEach(function(c){
+      var on = filtro === "todos" || c.dataset.quem.split(" ").indexOf(filtro) > -1;
+      c.classList.toggle("dim", !on);
+    });
+    document.querySelectorAll(".chip").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.q === filtro)); });
+  }
+  document.getElementById("chips").addEventListener("click", function(e){
+    var b = e.target.closest(".chip"); if(!b) return; filtro = b.dataset.q; aplicar();
+  });
+})();
+</script>
+
+</body>
+</html>
